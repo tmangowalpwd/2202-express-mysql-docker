@@ -1,0 +1,30 @@
+version: "3.8"
+
+networks:
+  express_mysql_network:
+    name: express_mysql_network
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "2001:2001"
+    depends_on:
+      - mysql_server
+    networks:
+      - express_mysql_network
+
+  mysql_server:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+    networks:
+      - express_mysql_network
+    volumes:
+      - mysql:/var/lib/mysql
+
+volumes:
+  mysql:
+
